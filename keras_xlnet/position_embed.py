@@ -44,6 +44,7 @@ class PositionalEmbedding(keras.layers.Layer):
 
     def call(self, inputs, **kwargs):
         q_len, m_len = K.shape(inputs[0])[1], K.shape(inputs[1])[1]
+        print(q_len,m_len)
         k_len = q_len + m_len
         start, stop = k_len, -1
         if not self.directional:
@@ -59,7 +60,7 @@ class PositionalEmbedding(keras.layers.Layer):
         ranges = K.expand_dims(K.arange(0.0, self.output_dim, 2.0), axis=0) / output_dim
         inverse = 1.0 / K.pow(10000.0, ranges)
         positions = inputs * inverse
-        return K.sin(positions)#K.concatenate([K.sin(positions), K.cos(positions)], axis=-1)
+        return K.concatenate([K.sin(positions), K.cos(positions)], axis=-1)
 
     def get_config(self):
         config = {
