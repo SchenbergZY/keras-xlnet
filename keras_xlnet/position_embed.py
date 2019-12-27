@@ -43,12 +43,14 @@ class PositionalEmbedding(keras.layers.Layer):
         return mask[0]
 
     def call(self, inputs, **kwargs):
-        q_len, m_len = K.shape(inputs[0])[1], K.shape(inputs[1])[1]
+        #q_len, m_len = K.shape(inputs[0])[1], K.shape(inputs[1])[1]
         q_len=512
+        m_len=0
         k_len = q_len + m_len
         start, stop = k_len, -1
-        if not self.directional:
-            stop = -q_len
+        #if not self.directional:
+        #    stop = -q_len
+        stop = -q_len
         inputs = K.tile(
             K.expand_dims(K.arange(start, stop, -1, dtype=K.floatx()), axis=0),
             [K.shape(inputs[0])[0], 1],
