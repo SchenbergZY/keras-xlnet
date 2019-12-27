@@ -44,7 +44,7 @@ class PositionalEmbedding(keras.layers.Layer):
 
     def call(self, inputs, **kwargs):
         q_len, m_len = K.shape(inputs[0])[1], K.shape(inputs[1])[1]
-        print(q_len,m_len)
+        q_len=512
         k_len = q_len + m_len
         start, stop = k_len, -1
         if not self.directional:
