@@ -1,6 +1,6 @@
 from .backend import keras
 from .backend import backend as K
-from tensorflow.python.ops.math_ops import add
+from tensorflow.python import ops, math_ops, state_ops, control_flow_ops
 __all__ = ['RelativeSegmentEmbedding']
 
 
@@ -40,8 +40,8 @@ class RelativeSegmentEmbedding(keras.layers.Embedding):
         segment, memory = inputs
         full = K.concatenate([K.zeros_like(memory[:, :, 0]), segment], axis=1)
         relative = K.not_equal(K.expand_dims(segment, axis=-1), K.expand_dims(full, axis=1))
-        relative = K.one_hot(K.cast(relative, 'uint8'), 2)
-        return [relative, add(self.embeddings,0.0)]
+        relative = K.one_hot(math_ops.cast(relative, 'uint8'), 2)
+        return [relative, math_ops.add(self.embeddings,0.0)]
 
     def get_config(self):
         config = {
