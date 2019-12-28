@@ -1,5 +1,5 @@
 from tensorflow.python.ops.random_ops import random_shuffle
-
+from tensorflow.python import ops, math_ops, state_ops, control_flow_ops
 from .backend import keras
 from .backend import backend as K
 
@@ -64,12 +64,12 @@ class PermutationMask(keras.layers.Layer):
                 shuffled = ranges + seq_len
         ranges = K.expand_dims(K.permute_dimensions(ranges, [1, 0]), axis=-1)
         shuffled = K.expand_dims(K.permute_dimensions(shuffled, [1, 0]), axis=1)
-        content_mask = K.cast(ranges <= shuffled, dtype=K.floatx())
+        content_mask = math_ops.cast(ranges <= shuffled, dtype=K.floatx())
 
         # Build query mask based on content mask
         ranges = K.arange(0, seq_len)
         eye = K.equal(K.expand_dims(ranges, axis=0), K.expand_dims(ranges, axis=-1))
-        eye = K.expand_dims(K.cast(eye, dtype=K.floatx()), axis=0)
+        eye = K.expand_dims(math_ops.cast(eye, dtype=K.floatx()), axis=0)
         query_mask = content_mask * (1.0 - eye)
 
         content_mask = K.concatenate([mem_mask, content_mask], axis=1)
