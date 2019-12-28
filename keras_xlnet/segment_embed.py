@@ -1,6 +1,6 @@
 from .backend import keras
 from .backend import backend as K
-from tensorflow.python.ops.math_ops add
+from tensorflow.python.ops.math_ops import add
 __all__ = ['RelativeSegmentEmbedding']
 
 
