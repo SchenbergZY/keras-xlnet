@@ -46,7 +46,7 @@ class PermutationMask(keras.layers.Layer):
     def call(self, inputs, training=None, **kwargs):
         inputs, memory = inputs
         batch_size = K.shape(inputs)[0]
-        seq_len = K.shape(inputs)[1]
+        seq_len = 512#K.shape(inputs)[1]
         mem_mask = K.tile(K.ones_like(memory[:, :, :1], dtype=K.floatx()), [1, 1, seq_len])
 
         # Build content mask with random permutation
