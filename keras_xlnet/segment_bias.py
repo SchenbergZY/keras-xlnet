@@ -1,5 +1,6 @@
 from .backend import keras, initializers, regularizers, constraints
 from .backend import backend as K
+from tensorflow.python.ops.math_ops import add
 
 __all__ = ['SegmentBias']
 
@@ -53,7 +54,7 @@ class SegmentBias(keras.layers.Layer):
         super(SegmentBias, self).build(input_shape)
 
     def call(self, inputs, **kwargs):
-        return self.bias_context + 0.0
+        return add(self.bias_context,0.0)
 
     def get_config(self):
         config = {
