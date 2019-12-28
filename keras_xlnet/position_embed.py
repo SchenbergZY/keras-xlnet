@@ -1,6 +1,6 @@
 from .backend import keras
 from .backend import backend as K
-
+from tensorflow.python import ops, math_ops, state_ops, control_flow_ops
 __all__ = ['PositionalEmbedding']
 
 
@@ -58,7 +58,7 @@ class PositionalEmbedding(keras.layers.Layer):
         if self.clamp_len is not None:
             inputs = K.clip(inputs, min_value=0, max_value=self.clamp_len)
         inputs = K.expand_dims(inputs, axis=-1)
-        output_dim = K.cast(self.output_dim, K.floatx())
+        output_dim = math_ops.cast(self.output_dim, K.floatx())
         ranges = K.expand_dims(K.arange(0.0, self.output_dim, 2.0), axis=0) / output_dim
         inverse = 1.0 / K.pow(10000.0, ranges)
         positions = inputs * inverse
