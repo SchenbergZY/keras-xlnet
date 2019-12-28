@@ -1,6 +1,6 @@
 from .backend import keras, initializers, regularizers, constraints
 from .backend import backend as K
-
+from tensorflow.python import ops, math_ops, state_ops, control_flow_ops
 __all__ = ['MaskEmbedding']
 
 
@@ -57,7 +57,7 @@ class MaskEmbedding(keras.layers.Layer):
 
     def call(self, inputs, **kwargs):
         token_embed, query = inputs
-        query = K.expand_dims(K.cast(query, dtype=K.floatx()), axis=-1)
+        query = K.expand_dims(math_ops.cast(query, dtype=K.floatx()), axis=-1)
         return query * self.embeddings + (1.0 - query) * token_embed
 
     def get_config(self):
