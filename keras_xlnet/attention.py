@@ -1,7 +1,7 @@
 import tensorflow as tf
 from .backend import keras, activations, initializers, regularizers, constraints, TF_KERAS
 from .backend import backend as K
-
+from tensorflow.python import ops, math_ops, state_ops, control_flow_ops
 __all__ = ['RelativePartialMultiHeadSelfAttention']
 
 
@@ -196,7 +196,7 @@ class RelativePartialMultiHeadSelfAttention(keras.layers.Layer):
         permutation = K.reshape(permutation, (-1, q_len, k_len))
         exp *= permutation
         if mask is not None and mask[0] is not None:
-            mask = K.cast(mask[0], K.floatx())
+            mask = math_ops.cast(mask[0], K.floatx())
             mask = K.concatenate([K.ones_like(memories[:, :, 0]), mask], axis=1)
             exp *= K.expand_dims(self._reshape_mask(mask), axis=1)
 
